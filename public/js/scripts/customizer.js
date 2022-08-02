@@ -242,8 +242,6 @@
     $(".postal_code").mask("S0S 0S0");
     $('.sin').mask("000-000-000");
     $(".currencies, .currency").inputmask("currency", {rightAlign: false, autoUnmask: true, prefix: "$ "});
-    $(".currency_open").inputmask("decimal", {rightAlign: false, autoUnmask: true, prefix: "$ ", groupSeparator: ','});
-    $(".decimal, .decimals").inputmask("decimal", {rightAlign: false, autoUnmask: true, groupSeparator: ','});
     $(".percent").inputmask("currency", {rightAlign: false, autoUnmask: true, max:100.00});
     $(".float").inputmask("currency", {rightAlign: false, autoUnmask: true});
 
@@ -253,7 +251,7 @@
 
     function unmaskAll() {
         $('.mobile, .phone, .date, .postal_code, .sin').unmask();
-        $('.currencies, .currency, .currency_open, .decimal, .decimals').inputmask('remove');
+        $('.currencies, .currency').inputmask('remove');
     }
 
     function dateIt(element, options = []) {
@@ -319,9 +317,9 @@ $(document).on("click", ".js_confirmation", function (e) {
   'use strict';
 
   /*******  Flatpickr  *****/
-  var basicPickr = $('.flatpickr-basic'),
-    dateTimePickr = $('.flatpickr-date-time'); //,
+  var basicPickr = $('.flatpickr-basic'); //,
     // timePickr = $('.flatpickr-time'),
+    // dateTimePickr = $('.flatpickr-date-time'),
     // multiPickr = $('.flatpickr-multiple'),
     // rangePickr = $('.flatpickr-range'),
     // humanFriendlyPickr = $('.flatpickr-human-friendly'),
@@ -342,11 +340,11 @@ $(document).on("click", ".js_confirmation", function (e) {
   // }
 
   // Date & TIme
-  if (dateTimePickr.length) {
-    dateTimePickr.flatpickr({
-      enableTime: true
-    });
-  }
+  // if (dateTimePickr.length) {
+  //   dateTimePickr.flatpickr({
+  //     enableTime: true
+  //   });
+  // }
 
   // Multiple Dates
   // if (multiPickr.length) {

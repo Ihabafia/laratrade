@@ -1022,7 +1022,7 @@ window.colors = {
             switchToLayout = currentLocalStorageLayout ? currentLocalStorageLayout : currentLayout;
 
         //get your item from the localStorage
-        setCookie('ltt-mode', currentLocalStorageLayout, 30);
+        setCookie('pa-mode', currentLocalStorageLayout, 30);
         $html.removeClass('semi-dark-layout dark-layout bordered-layout');
 
         if (switchToLayout === 'dark-layout') {

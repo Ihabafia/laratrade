@@ -36,7 +36,6 @@
                                     <td>{!! pill($transaction->action->label(), $transaction->action->lightColor()) !!}</td>
                                     <td>{{ formatQty($transaction->qty, 5) }}</td>
                                     <td>{{ formatCurrency($transaction->the_price) }}</td>
-                                    <td></td>
                                     <td>{!! currency($transaction->amount) !!}</td>
                                     <td class="text-center">
                                         <div class="dropdown">
@@ -81,12 +80,6 @@
             </div>
         </div>
     </div>
-    @push('css_after')
-        <link rel="stylesheet" href="{{ asset('/js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('/js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
-        <link rel="stylesheet"
-              href="{{ asset('/js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css') }}">
-    @endpush
     @push('js_after')
         <x-datatables-js />
 
