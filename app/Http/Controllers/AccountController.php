@@ -16,7 +16,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        $portfolios = Account::all();
+
+        return view('accounts.index', compact('portfolios'));
     }
 
     /**
@@ -26,7 +28,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounts.create');
     }
 
     /**
@@ -37,7 +39,21 @@ class AccountController extends Controller
      */
     public function store(StoreAccountRequest $request)
     {
-        //
+        $account = Account::create([
+            'user_id' => auth()->id(),
+            'name' => $request->name,
+            'description' => $request->description,
+            'cash' => [
+                'CAD' => 0.00,
+                'USD' => 0.00,
+            ],
+        ]);
+
+        $this->updateSession();
+
+        return to_route('accounts.index')
+            ->withSuccess(__('custom-messages.model-created', ['model' => 'portfolio']))
+            ->withNew($account->id);
     }
 
     public function get(Request $request)
@@ -68,7 +84,7 @@ class AccountController extends Controller
      */
     public function edit(Account $account)
     {
-        //
+        return view('accounts.edit', compact('account'));
     }
 
     /**
@@ -80,7 +96,12 @@ class AccountController extends Controller
      */
     public function update(UpdateAccountRequest $request, Account $account)
     {
-        //
+        $account->update($request->validated());
+
+        $this->updateSession();
+
+        return to_route('accounts.index')
+            ->withSuccess(__('custom-messages.model-updated', ['model' => 'portfolio']));
     }
 
     /**
@@ -92,5 +113,12 @@ class AccountController extends Controller
     public function destroy(Account $account)
     {
         //
+    }
+
+    private function updateSession()
+    {
+        $portfolios = auth()->user()->accounts;
+        session()->put('portfolio', $portfolios->first()->toArray());
+        session()->put('portfolios', $portfolios->pluck('id', 'name'));
     }
 }

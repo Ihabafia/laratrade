@@ -21,4 +21,7 @@ return [
     'amount-label' => 'Amount',
     'rate-label' => 'Rate',
     'cash-label' => 'Available Cash',
+
+    'portfolio-name-label' => 'Portfolio Name',
+    'portfolio-description-label' => 'Description',
 ];

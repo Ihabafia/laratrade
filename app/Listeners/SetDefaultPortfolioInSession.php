@@ -29,7 +29,6 @@ class SetDefaultPortfolioInSession
         $portfolios = $event->user->accounts;
         session()->put('portfolio', $portfolios->first()->toArray());
         session()->put('portfolios', $portfolios->pluck('id', 'name'));
-        $products = null;
 
         $log = activity($event->user->id)
             ->causedBy($event->user)

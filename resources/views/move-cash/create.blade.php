@@ -33,6 +33,17 @@
                         <input id="amount_after_usd" type="hidden" name="after_usd" value="">
                         <span id="after_error_usd" class="" style="display: none;" role="alert"></span>
                     </div>
+                    <div class="form-group col-md-3 mt-2">
+                        <x-label for="date">{{ __('forms.time-of-transaction-label') }}</x-label>
+                        <x-input-group id="date"
+                                       class="flatpickr-date-time flatpickr-input"
+                                       name="date"
+                                       value="{{ old('date', now()->format('Y-m-d H:i')) }}"
+                                       type="text"
+                                       readonly="readonly"
+                        />
+                        <x-input-error for="date"/>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-3 mt-2">
@@ -94,7 +105,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </form>

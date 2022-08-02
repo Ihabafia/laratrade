@@ -16,9 +16,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        ray()->showQueries();
-        $transactions = Transaction::all();
-        ray()->stopShowingQueries();
+        $transactions = Transaction::orderByDesc('date')->get();
 
         return view('transactions.index', compact('transactions'));
     }

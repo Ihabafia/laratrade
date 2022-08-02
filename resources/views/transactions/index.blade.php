@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped table-vcenter">
+                    <table class="datatables table table-hover table-striped table-vcenter">
                         @if($transactions->count())
                         <thead>
                             <tr>
@@ -81,4 +81,27 @@
             </div>
         </div>
     </div>
+    @push('css_after')
+        <link rel="stylesheet" href="{{ asset('/js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+        <link rel="stylesheet"
+              href="{{ asset('/js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css') }}">
+    @endpush
+    @push('js_after')
+        <x-datatables-js />
+
+        <script>
+            $(document).ready( function () {
+                $('.datatables').DataTable({
+                    "bSort": true,
+                    "pageLength": 25,
+                    "stateSave": false,
+                    "order": [ 0, 'desc' ],
+                    "columnDefs": [{
+                        className: 'control',
+                    }],
+                });
+            });
+        </script>
+    @endpush
 </x-admin-backend-layout>

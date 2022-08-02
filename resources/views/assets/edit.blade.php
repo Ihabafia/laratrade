@@ -1,7 +1,7 @@
 <x-admin-backend-layout
-    title="{{ __('custom-messages.create-model', ['model' => 'Asset/Ticker']) }}"
+    title="{{ __('custom-messages.edit-type', ['type' => 'Asset/Ticker']) }}"
 >
-    <x-app.page-title page-title="{{ __('custom-messages.create-model', ['model' => 'Asset/Ticker']) }}">
+    <x-app.page-title page-title="{{ __('custom-messages.edit-type', ['type' => 'Asset/Ticker']) }}">
         <a href="{{ route('assets.index') }}" class="btn btn-success waves-effect waves-float waves-light">
             <i data-feather='list'></i> {{ __('buttons.list-of-assets') }}
         </a>
@@ -63,7 +63,7 @@
                     <div class="row mt-2">
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-md-0">
-                                <i class="fa fa-check"></i> {{ __('custom-messages.create-model', ['model' => 'Asset']) }}
+                                <i class="fa fa-check"></i> {{ __('custom-messages.edit-type', ['type' => 'Asset']) }}
                             </button>
                             <a href="{{route('assets.index')}}" class="btn btn-inverse me-md-0">{{ __('buttons.cancel') }}</a>
                         </div>

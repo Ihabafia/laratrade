@@ -24,7 +24,7 @@ class DashboardController extends Controller
         return view('dashboard.index', compact('account', 'assetsCount'));
     }
 
-    public function redirect($id)
+    public function redirect(Request $request, $id)
     {
         $user = auth()->user();
         $portfolio = Account::findOrFail($id);
@@ -39,6 +39,6 @@ class DashboardController extends Controller
             ->event('switch-portfolio')
             ->log(__('custom-messages.audit-action__model__event__', ['model' => 'portfolio', 'event' => 'been switched']));
 
-        return to_route('dashboard.index');
+        return to_route($request->redirect ?? 'dashboard.index');
     }
 }
