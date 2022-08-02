@@ -21,9 +21,9 @@ class UsersSeeder extends Seeder
         $admin = User::factory()->create([
             'first_name' => 'Ihab',
             'last_name' => 'Abou Afia',
-            'username' => 'ihabafia',
+            'username' => 'administrator',
             'email' => 'ihab@abuafia.com',
-            'mobile' => '4165803210',
+            'mobile' => '00000000',
             'password' => bcrypt('password'),
         ]);
 
@@ -35,7 +35,7 @@ class UsersSeeder extends Seeder
             'last_name' => 'Doe',
             'username' => 'johndoe',
             'email' => 'john@doe.com',
-            'mobile' => '4165803210',
+            'mobile' => '0000000000',
             'password' => bcrypt('password'),
         ]);
 

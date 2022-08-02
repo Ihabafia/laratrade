@@ -11,8 +11,20 @@ LaraTrad is a web application to track your stocks and cryptos. You can track yo
 ## Installing the app
 
 ```php 
-php artisan install --seed
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
 ```
+#### Admin User
+Username: administrator
+
+Password: password
+
+#### User:
+Username: johndoe
+
+Password: password
 
 ## License
 
