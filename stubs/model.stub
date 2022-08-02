@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Model;
+use App\Traits\AuditTrailable;
+
+class {{ class }} extends Model
+{
+    use HasFactory, LogsActivity, AuditTrailable;
+
+    protected $guarded = [];
+
+}
