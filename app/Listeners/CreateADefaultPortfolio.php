@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\AssetTypeEnum;
 use App\Enums\CurrencyEnum;
+use App\Enums\Enums;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,24 +29,23 @@ class CreateADefaultPortfolio
      */
     public function handle(Registered $event)
     {
-        $event->user->accounts()->create([
+        $portfolio = $event->user->portfolios()->create([
             'name' => 'Personal',
-            'cash' => [
-                'CAD' => 0,
-                'USD' => 0,
-            ]
+            'description' => 'Personal Portfolio',
         ]);
 
-        $event->user->assets()->createMany(array([
+        $portfolio->assets()->createMany(array([
+            'user_id' => $event->user->id,
             'ticker' => 'CASH',
             'description' => 'Cash Deposits / Withdrawals CAD',
-            'type' => AssetTypeEnum::Cash,
+            'type' => Enums::Cash,
             'currency' => CurrencyEnum::CAD,
         ],
         [
+            'user_id' => $event->user->id,
             'ticker' => 'CASH',
             'description' => 'Cash Deposits / Withdrawals USD',
-            'type' => AssetTypeEnum::Cash,
+            'type' => Enums::Cash,
             'currency' => CurrencyEnum::USD,
         ]));
     }
