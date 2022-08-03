@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum TransactionTypeEnum: string
+enum Enums: string
 {
     case Buy = 'Buy';
     case Sell = 'Sell';
@@ -11,6 +11,9 @@ enum TransactionTypeEnum: string
     case Withdraw = 'Withdraw';
     case CAD2USD = 'CAD2USD';
     case USD2CAD = 'USD2CAD';
+    case Cash = 'Cash';
+    case Stock = 'Stock';
+    case Crypto = 'Crypto';
 
     public function label(): string
     {
@@ -22,16 +25,19 @@ enum TransactionTypeEnum: string
             self::Withdraw => 'Withdraw',
             self::CAD2USD => 'Convert CAD to USD',
             self::USD2CAD => 'Convert USD to CAD',
+            self::Stock => 'Stock',
+            self::Crypto => 'Crypto',
+            self::Cash => 'Cash',
         };
     }
 
     public function color(): string
     {
         return match($this) {
-            self::Buy => 'success',
+            self::Buy, self::Stock => 'success',
             self::Sell => 'danger',
-            self::Dividend => 'info',
-            self::Deposit, self::Withdraw, self::CAD2USD, self::USD2CAD => 'primary',
+            self::Dividend, self::Cash => 'info',
+            self::Deposit, self::Withdraw, self::CAD2USD, self::USD2CAD, self::Crypto => 'primary',
             default => '',
         };
     }
@@ -39,10 +45,10 @@ enum TransactionTypeEnum: string
     public function lightColor(): string
     {
         return match($this) {
-            self::Buy => 'light-success',
+            self::Buy, self::Stock => 'light-success',
             self::Sell => 'light-danger',
-            self::Dividend => 'light-info',
-            self::Deposit, self::Withdraw, self::CAD2USD, self::USD2CAD => 'light-primary',
+            self::Dividend, self::Cash => 'light-info',
+            self::Deposit, self::Withdraw, self::CAD2USD, self::USD2CAD, self::Crypto => 'light-primary',
             default => '',
         };
     }

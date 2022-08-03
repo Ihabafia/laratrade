@@ -9,6 +9,7 @@ return [
     'cancel' => 'Cancel',
     'create' => 'Create',
     'register' => 'Create an Account',
+    'list-of-portfolios' => 'Portfolios',
     'list-of-assets' => 'Assets',
     'list-of-transactions' => 'Transactions',
 ];

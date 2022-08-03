@@ -28,12 +28,20 @@
                             @forelse($assets as $asset)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('assets.edit', $asset) }}">{{ $asset->ticker }}</a> <x-pill-conditional :condition="session('new') == $asset->id">{{ __('messages.new') }}</x-pill-conditional>
+                                        @if($asset->ticker == 'CASH')
+                                            {{ $asset->ticker }}
+                                        @else
+                                            <a href="{{ route('assets.edit', $asset) }}">{{ $asset->ticker }}</a> <x-pill-conditional :condition="session('new') == $asset->id">{{ __('messages.new') }}</x-pill-conditional><x-pill-conditional color="info" :condition="session('updated') == $asset->id">{{ __('messages.updated') }}</x-pill-conditional>
+                                        @endif
                                     </td>
                                     <td class="d-none d-sm-table-cell">{{ $asset->description }}</td>
                                     <td>{!! pill($asset->currency->name, $asset->currency->color()) !!}</td>
                                     <td>{!! pill($asset->type->label(), $asset->type->lightColor()) !!}</td>
-                                    <td><a href="{{ route('assets.edit', $asset) }}" class="btn btn-info btn-sm">{{ __('buttons.edit') }}</a></td>
+                                    <td>
+                                        @if($asset->ticker !== 'CASH')
+                                            <a href="{{ route('assets.edit', $asset) }}" class="btn btn-info btn-sm">{{ __('buttons.edit') }}</a>
+                                        @endif
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>

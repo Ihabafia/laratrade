@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
+            $table->foreignId('portfolio_id')->constrained('portfolios')->onDelete('cascade');
             $table->foreignId('asset_id')->constrained('assets')->onDelete('cascade');
+            $table->string('ticker', 10);
+            $table->string('currency', 3);
             $table->float('quantity');
             $table->integer('price');
             $table->string('action');

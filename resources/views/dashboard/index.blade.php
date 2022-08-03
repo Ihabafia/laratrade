@@ -27,9 +27,9 @@
                     <div class="card">
                         <div class="card-body d-flex align-items-center justify-content-between">
                             <div>
-                                <h4 class="fw-bolder mb-25">CAD: {{ formatCurrency($account->cash['CAD']) }}</h4>
-                                <h4 class="fw-bolder mb-25">USD: {{ formatCurrency($account->cash['USD']) }}</h4>
-                                <span>{{ $account->name }} Protfolio</span>
+                                <h4 class="fw-bolder mb-25">CAD: {{ formatCurrency($portfolio->CAD ?? 0) }}</h4>
+                                <h4 class="fw-bolder mb-25">USD: {{ formatCurrency($portfolio->USD ?? 0) }}</h4>
+                                <span>{{ $portfolio->name ?? 'Personal' }} Portfolio</span>
                             </div>
                             <div class="avatar bg-light-danger p-50">
                                 <span class="avatar-content">

@@ -15,11 +15,17 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            \App\Listeners\CreateADefaultAccount::class,
+            \App\Listeners\CreateADefaultPortfolio::class,
             \App\Listeners\SendActivationNotificationListener::class,
         ],
         Login::class => [
             \App\Listeners\SetDefaultPortfolioInSession::class,
+        ],
+        \App\Events\TransactionProcessed::class => [
+            \App\Listeners\UpdatePortfolio::class,
+        ],
+        \App\Events\TransactionsProcessed::class => [
+            \App\Listeners\UpdatePortfolios::class,
         ],
     ];
 

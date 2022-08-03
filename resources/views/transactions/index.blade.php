@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped table-vcenter">
+                    <table class="datatables table table-hover table-striped table-vcenter">
                         @if($transactions->count())
                         <thead>
                             <tr>
@@ -36,7 +36,6 @@
                                     <td>{!! pill($transaction->action->label(), $transaction->action->lightColor()) !!}</td>
                                     <td>{{ formatQty($transaction->qty, 5) }}</td>
                                     <td>{{ formatCurrency($transaction->the_price) }}</td>
-                                    <td></td>
                                     <td>{!! currency($transaction->amount) !!}</td>
                                     <td class="text-center">
                                         <div class="dropdown">
@@ -81,4 +80,21 @@
             </div>
         </div>
     </div>
+    @push('js_after')
+        <x-datatables-js />
+
+        <script>
+            $(document).ready( function () {
+                $('.datatables').DataTable({
+                    "bSort": true,
+                    "pageLength": 25,
+                    "stateSave": false,
+                    "order": [ 0, 'desc' ],
+                    "columnDefs": [{
+                        className: 'control',
+                    }],
+                });
+            });
+        </script>
+    @endpush
 </x-admin-backend-layout>

@@ -2,6 +2,7 @@
 
 return [
     'new' => 'New',
+    'updated' => 'Updated',
     'go' => 'Go',
     'general-crons' => 'General Crons',
     'payments-crons' => 'Payments Crons',

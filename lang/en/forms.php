@@ -43,15 +43,20 @@ return [
     'vc-filename-label' => 'Voice Call File',
     'sms-subject-warning' => '(It will just show in the notes)',
     'internal-note-label' => 'Internal Note',
+
     // Accounts
-    'account-name-label' => 'Account Name',
+    'account-name-label' => 'Portfolio Name',
     'balance-before-cad-label' => 'Balance Before (CAD)',
     'balance-after-cad-label' => 'Balance After (CAD)',
     'balance-before-usd-label' => 'Balance Before (USD)',
     'balance-after-usd-label' => 'Balance After (USD)',
     'converted-amount-label' => 'Converted Amount',
     'choose-account-label' => 'Choose an account to show',
+    'time-of-transaction-label' => 'Date - Time',
 
+    // Accounts
+    'portfolio-name-label' => 'Portfolio Name',
+    'portfolio-description-label' => 'Description',
     // Assets
     'ticker-label' => 'Ticker Symbol',
     'description-label' => 'Description',

@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -26,10 +27,9 @@ class SetDefaultPortfolioInSession
      */
     public function handle(Login $event)
     {
-        $portfolios = $event->user->accounts;
+        $portfolios = $event->user->portfolios;
         session()->put('portfolio', $portfolios->first()->toArray());
         session()->put('portfolios', $portfolios->pluck('id', 'name'));
-        $products = null;
 
         $log = activity($event->user->id)
             ->causedBy($event->user)

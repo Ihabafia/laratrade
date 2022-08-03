@@ -1,33 +1,13 @@
 <?php
 
-use App\Actions\Communications\CreateCommunicationEmail;
-use App\Actions\Communications\CreateCommunicationPrc;
-use App\Actions\Communications\CreateCommunicationSms;
-use App\Actions\Communications\CreateMasterCommunicationEmail;
-use App\Actions\Communications\CreateMasterCommunicationPrc;
-use App\Actions\Communications\CreateMasterCommunicationSms;
-use App\Actions\Communications\UpdateCommunicationEmail;
-use App\Actions\Communications\UpdateCommunicationPrc;
-use App\Actions\Communications\UpdateCommunicationSms;
-use App\Actions\Communications\UpdateMasterCommunicationEmail;
-use App\Actions\Communications\UpdateMasterCommunicationPrc;
-use App\Actions\Communications\UpdateMasterCommunicationSms;
 use App\Enums\RoleEnum;
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CronController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\Audits\AuditTrailController;
-use App\Http\Controllers\BankFileController;
-use App\Http\Controllers\Clients\ClientController;
-use App\Http\Controllers\Communications\EditMasterCommunicationController;
-use App\Http\Controllers\Communications\MasterCommunicationController;
-use App\Http\Controllers\CronController;
 use App\Http\Controllers\Communications\CommunicationController;
-use App\Http\Controllers\Communications\CreateCommunicationController;
-use App\Http\Controllers\Communications\EditCommunicationController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MoveCashController;
-use App\Http\Controllers\PackageController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Users\UserController;
@@ -49,6 +29,8 @@ Route::middleware(['auth', 'first.time.login'])->group(function () {
 
     Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('cron/{command}', CronController::class);
 });
 
 Route::middleware(['auth', 'first.time.login', 'role:' . RoleEnum::Admin->value])->group(function () {
@@ -56,13 +38,12 @@ Route::middleware(['auth', 'first.time.login', 'role:' . RoleEnum::Admin->value]
     Route::get('communications/{communication}/preview', [CommunicationController::class, 'preview'])->name('communication.preview');
     Route::resource('communications', CommunicationController::class)/*->except('show', 'edit', 'update', 'create', 'store')*/;
     Route::get('audits', AuditTrailController::class)->name('audits.index');
-
 });
 Route::middleware(['auth', 'first.time.login', 'role:'.RoleEnum::User->value])->group(function () {
     Route::get('/redirect/{id}', [DashboardController::class, 'redirect'])->name('redirect');
-    Route::post('accounts/get', [AccountController::class, 'get'])->name('accounts.get');
-    Route::resource('accounts', AccountController::class);
-    Route::post('assets/get', [AssetController::class, 'get'])->name('assets.get');
+    Route::post('portfolio/get', [PortfolioController::class, 'get'])->name('portfolio.get');
+    Route::resource('portfolios', PortfolioController::class);
+    Route::post('assets/get', [AssetController::class, 'get'])->name('asset.get');
     Route::resource('assets', AssetController::class)->except('show');
     Route::resource('move-cash', MoveCashController::class);
     Route::resource('transactions', TransactionController::class);

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\AssetTypeEnum;
 use App\Enums\CurrencyEnum;
+use App\Enums\Enums;
 use App\Enums\TimeZone;
 use App\Enums\TransactionEnum;
 use App\Models\User;
@@ -21,51 +22,50 @@ class UsersSeeder extends Seeder
         $admin = User::factory()->create([
             'first_name' => 'Ihab',
             'last_name' => 'Abou Afia',
-            'username' => 'ihabafia',
+            'username' => 'administrator',
             'email' => 'ihab@abuafia.com',
-            'mobile' => '4165803210',
+            'mobile' => '00000000',
             'password' => bcrypt('password'),
         ]);
 
-        $admin->accounts()->create($this->defaultAccount());
-        $admin->assets()->createMany($this->cashAsset());
+        $portfolio = $admin->portfolios()->create($this->defaultAccount());
+        $portfolio->assets()->createMany($this->cashAsset($admin));
 
         $user = User::factory()->create([
             'first_name' => 'John',
             'last_name' => 'Doe',
             'username' => 'johndoe',
             'email' => 'john@doe.com',
-            'mobile' => '4165803210',
+            'mobile' => '0000000000',
             'password' => bcrypt('password'),
         ]);
 
-        $user->accounts()->create($this->defaultAccount());
-        $user->assets()->createMany($this->cashAsset());
+        $portfolio = $user->portfolios()->create($this->defaultAccount());
+        $portfolio->assets()->createMany($this->cashAsset($user));
     }
 
     private function defaultAccount()
     {
         return [
             'name' => 'Personal',
-            'cash' => [
-                'CAD' => 0,
-                'USD' => 0,
-            ]
+            'description' => 'Personal Portfolio',
         ];
     }
 
-    private function cashAsset(): array
+    private function cashAsset($user): array
     {
         return array([
+            'user_id' => $user->id,
             'ticker' => 'CASH',
-            'description' => 'Cash Deposits / Withdrawals CAD',
-            'type' => AssetTypeEnum::Cash,
+            'description' => 'Cash Account in CAD',
+            'type' => Enums::Cash,
             'currency' => CurrencyEnum::CAD,
         ],
         [
+            'user_id' => $user->id,
             'ticker' => 'CASH',
-            'description' => 'Cash Deposits / Withdrawals USD',
-            'type' => AssetTypeEnum::Cash,
+            'description' => 'Cash Account in USD',
+            'type' => Enums::Cash,
             'currency' => CurrencyEnum::USD,
         ]);
     }

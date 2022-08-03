@@ -17,6 +17,9 @@
             <ul class="navigation navigation-main mt-3" id="main-menu-navigation" data-menu="menu-navigation">
                 <x-sidebar.nav-item route="dashboard.index" icon="home" title="Dashboard" :actives="['dashboard.index']" />
                 @hasanyrole(\App\Enums\RoleEnum::User->value)
+                    <x-sidebar.nav-item route="portfolios.index" icon="list" title="Manage Portfolios" :actives="[
+                        'portfolios.create', 'portfolios.edit', 'portfolios.index'
+                    ]" />
                     <x-sidebar.nav-item route="assets.index" icon="list" title="Manage Assets" :actives="[
                         'assets.create', 'assets.edit', 'assets.index'
                     ]" />

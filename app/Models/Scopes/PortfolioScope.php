@@ -10,7 +10,7 @@ class PortfolioScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('account_id', session('portfolio')['id']);
+        $builder->where('portfolio_id', session('portfolio')['id']);
     }
 }
 

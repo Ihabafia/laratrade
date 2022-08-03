@@ -33,19 +33,30 @@
                         <input id="amount_after_usd" type="hidden" name="after_usd" value="">
                         <span id="after_error_usd" class="" style="display: none;" role="alert"></span>
                     </div>
+                    <div class="form-group col-md-3 mt-2">
+                        <x-label for="date">{{ __('forms.time-of-transaction-label') }}</x-label>
+                        <x-input-group id="date"
+                                       class="flatpickr-date-time flatpickr-input"
+                                       name="date"
+                                       value="{{ old('date', now()->format('Y-m-d H:i')) }}"
+                                       type="text"
+                                       readonly="readonly"
+                        />
+                        <x-input-error for="date"/>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-3 mt-2">
-                        <x-label for="account_id">{{ __('forms.account-name-label') }} <x-required/></x-label>
-                        <x-dropdown-array id="account_id"
-                                          name="account_id"
+                        <x-label for="portfolio_id">{{ __('forms.account-name-label') }} <x-required/></x-label>
+                        <x-dropdown-array id="portfolio_id"
+                                          name="portfolio_id"
                                           object="asset"
                                           default="{{ __('custom-messages.select-model', ['model' => 'an account']) }}"
                                           :array="$accounts"
-                                          selected="{{ old('account_id') }}"
-                                          serror="{{ $errors->first('account_id') }}"
+                                          selected="{{ old('portfolio_id') }}"
+                                          serror="{{ $errors->first('portfolio_id') }}"
                         />
-                        <x-input-error for="account_id"/>
+                        <x-input-error for="portfolio_id"/>
                     </div>
                     <div class="form-group col-md-2 mt-2">
                         <x-label for="action">{{ __('tables.transaction-action-label') }} <x-required/></x-label>
@@ -94,14 +105,13 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </form>
 
     @push('js_after')
         <script>
-            $(document).on('change', '#account_id', function(e) {
+            $(document).on('change', '#portfolio_id', function(e) {
                 if(this.value == '') {
                     $("#balance_before_cad").html('{{ __('forms.choose-account-label') }}');
                     $("#balance_after_cad").html('{{ __('forms.choose-account-label') }}');
@@ -114,11 +124,11 @@
                     return;
                 }
 
-                axios.post('{{ route('accounts.get') }}', {
+                axios.post('{{ route('portfolio.get') }}', {
                     id: this.value,
                 }).then(response => {
-                    cad = response.data.cash['CAD'];
-                    usd = response.data.cash['USD'];
+                    cad = response.data.CAD;
+                    usd = response.data.USD;
                     $("#balance_before_cad").html(formatToCurrency(cad));
                     $("#amount_before_cad").val(cad);
                     $("#balance_after_cad").html(formatToCurrency(cad));
@@ -245,7 +255,7 @@
                     return;
                 }
 
-                axios.post('{{ route('accounts.get') }}', {
+                axios.post('{{ route('portfolio.get') }}', {
                     id: this.value,
                 }).then(response => {
                     cad = response.data.cash['CAD'];

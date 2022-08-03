@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TransactionEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreTransactionRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class StoreTransactionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,11 @@ class StoreTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'ticker_id' => ['required'],
+            'action' => [new Enum(TransactionEnum::class)],
+            'quantity' => ['numeric', 'gt:0'],
+            'price' => ['required', 'numeric', 'gt:0'],
+            'date' => ['nullable', 'date'],
         ];
     }
 }

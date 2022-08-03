@@ -76,14 +76,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->first_name.' '.$this->last_name;
     }
 
-    public function accounts(): HasMany
+    public function portfolios(): HasMany
     {
-        return $this->hasMany(Account::class);
-    }
-
-    public function account(): HasOne
-    {
-        return $this->hasOne(Account::class);
+        return $this->hasMany(Portfolio::class);
     }
 
     public function assets(): HasMany

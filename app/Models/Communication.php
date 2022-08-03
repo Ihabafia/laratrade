@@ -38,12 +38,6 @@ class Communication extends Model
         return str(nl2br($this->attributes['body']))->replace("\r\n", '');
     }
 
-
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
-
     public function setMethodAttribute($class)
     {
         $this->attributes['method'] = str($class)->camel()->__toString();

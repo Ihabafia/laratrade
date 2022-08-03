@@ -6,7 +6,7 @@
 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     @foreach(session('portfolios') as $portfolio => $id)
         @if($id == session('portfolio')['id']) @continue @endif
-        <a class="dropdown-item" href="{{ route('redirect', $id) }}">{{ $portfolio }}</a>
+        <a class="dropdown-item" href="{{ route('redirect', [$id, 'redirect' => current_route()]) }}">{{ $portfolio }}</a>
     @endforeach
 </div>
 @endhasanyrole

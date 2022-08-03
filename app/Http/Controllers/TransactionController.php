@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TransactionProcessed;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
+use App\Models\Portfolio;
 use App\Models\Asset;
 use App\Models\Transaction;
 
@@ -16,9 +18,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        ray()->showQueries();
-        $transactions = Transaction::all();
-        ray()->stopShowingQueries();
+        $transactions = Transaction::forThisPortfolio()
+            ->orderByDesc('date')
+            ->get();
 
         return view('transactions.index', compact('transactions'));
     }
@@ -30,7 +32,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $assets = Asset::selectArray();
+        $assets = Asset::selectArrayWithOutCash();
 
         return view('transactions.create', compact('assets'));
     }
@@ -43,7 +45,39 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request)
     {
-        //
+        $portfolio = Portfolio::find(session('portfolio')['id']);
+        $asset = Asset::find($request->ticker_id);
+        $cashAsset = $portfolio->cash()->where('currency', $asset->currency->value)->first();
+
+        $transaction = $portfolio->transactions()->create([
+            'user_id' => auth()->id(),
+            'asset_id' => $asset->id,
+            'ticker' => $asset->ticker,
+            'currency' => $asset->currency->value,
+            'quantity' => $request->quantity,
+            'price' => $request->action == 'Buy' ? $request->price : -$request->price,
+            'action' => $request->action,
+            'date' => $request->date ?? now(),
+        ]);
+
+        $transaction = $portfolio->transactions()->create([
+            'user_id' => auth()->id(),
+            'asset_id' => $cashAsset->id,
+            'ticker' => $cashAsset->ticker,
+            'currency' => $cashAsset->currency->value,
+            'quantity' => $request->quantity,
+            'price' => $request->action == 'Buy' ? -$request->price : $request->price,
+            'action' => $request->action,
+            'date' => $request->date ?? now(),
+        ]);
+
+        event(new TransactionProcessed($transaction));
+
+        updateSession();
+
+        return to_route('transactions.index')
+            ->withSuccess(__('custom-messages.model-completed', ['model' => 'transaction']))
+            ->withNew($transaction->id);
     }
 
     /**
