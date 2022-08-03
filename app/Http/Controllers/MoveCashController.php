@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ConvertCurrency;
-use App\Enums\AssetTypeEnum;
-use App\Models\Account;
+use App\Enums\Enums;
+use App\Events\TransactionProcessed;
+use App\Events\TransactionsProcessed;
+use App\Models\Portfolio;
 use App\Models\Asset;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -28,7 +30,7 @@ class MoveCashController extends Controller
      */
     public function create()
     {
-        $accounts = Account::selectArray();
+        $accounts = Portfolio::selectArray();
 
         return view('move-cash.create', compact('accounts'));
     }
@@ -103,26 +105,23 @@ class MoveCashController extends Controller
 
     private function action(array $all)
     {
-        $account = Account::find($all['account_id']);
-        $asset = Asset::where([
-            'ticker' => AssetTypeEnum::Cash,
-            'currency' => 'CAD'
-        ])->first();
+        $portfolio = Portfolio::find($all['portfolio_id']);
+        $cashAsset = $portfolio->cash()->where('currency', 'CAD')->first();
 
-        $transaction = auth()->user()->transactions()->create([
-            'account_id' => $account->id,
-            'asset_id' => $asset->id,
+        $transaction = $portfolio->transactions()->create([
+            'user_id' => auth()->id(),
+            'asset_id' => $cashAsset->id,
+            'ticker' => 'CASH',
+            'currency' => 'CAD',
             'quantity' => 1,
             'price' => $all['action'] == 'Deposit' ? $all['amount'] : -$all['amount'],
             'action' => $all['action'],
             'date' => $all['date'] ?? now(),
         ]);
 
-        $account->cash = [
-            'CAD' => $account->cash['CAD'] + $transaction->price,
-            'USD' => $account->cash['USD'],
-        ];
-        $account->save();
+        event(new TransactionProcessed($transaction));
+
+        updateSession();
 
         return true;
     }
@@ -131,15 +130,13 @@ class MoveCashController extends Controller
     {
         $service = new ConvertCurrency($all, $action);
         $data = $service->converted();
+        $portfolio = Portfolio::find($all['portfolio_id']);
 
-        $transaction = auth()->user()->transactions()->createMany($data);
-        $account = $transaction[0]->account;
+        $transactions = $portfolio->transactions()->createMany($data);
 
-        $account->cash = [
-            'CAD' => $account->cash['CAD'] + $data['CAD']['price'],
-            'USD' => $account->cash['USD'] + $data['USD']['price'],
-        ];
-        $account->save();
+        event(new TransactionsProcessed($transactions));
+
+        updateSession();
 
         return true;
     }

@@ -196,3 +196,12 @@ function colored_amount($amount)
 
     return $result;
 }
+
+function updateSession()
+{
+    $id = session('portfolio')['id'];
+    $portfolios = auth()->user()->portfolios;
+    $portfolio = \App\Models\Portfolio::find($id);
+    session()->put('portfolio', $portfolio->toArray());
+    session()->put('portfolios', $portfolios->pluck('id', 'name'));
+}

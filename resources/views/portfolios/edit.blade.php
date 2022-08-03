@@ -1,14 +1,14 @@
 <x-admin-backend-layout
-    title="{{ __('custom-messages.edit-type', ['type' => $account->name.' Portfolio']) }}"
+    title="{{ __('custom-messages.edit-type', ['type' => $portfolio->name.' Portfolio']) }}"
 >
-    <x-app.page-title page-title="{{ __('custom-messages.edit-type', ['type' => $account->name.' Portfolio']) }}">
-        <a href="{{ route('accounts.index') }}" class="btn btn-success waves-effect waves-float waves-light">
+    <x-app.page-title page-title="{{ __('custom-messages.edit-type', ['type' => $portfolio->name.' Portfolio']) }}">
+        <a href="{{ route('portfolios.index') }}" class="btn btn-success waves-effect waves-float waves-light">
             <i data-feather='list'></i> {{ __('buttons.list-of-portfolios') }}
         </a>
     </x-app.page-title>
 
     <form class="masked-form"
-          action="{{ route('accounts.update', $account) }}"
+          action="{{ route('portfolios.update', $portfolio) }}"
           method="POST"
     >
         @csrf
@@ -20,7 +20,7 @@
                         <x-label for="name">{{ __('forms.account-name-label') }} <x-required/></x-label>
                         <x-input-group id="name"
                                        name="name"
-                                       value="{{ old('name', $account->name) }}"
+                                       value="{{ old('name', $portfolio->name) }}"
                                        type="text"
                                        autofocus
                         />
@@ -30,7 +30,7 @@
                         <x-label for="description">{{ __('forms.description-label') }} <x-required/></x-label>
                         <x-input-group id="description"
                                        name="description"
-                                       value="{{ old('description', $account->description) }}"
+                                       value="{{ old('description', $portfolio->description) }}"
                                        type="text"
                         />
                         <x-input-error for="description"/>
@@ -40,7 +40,7 @@
                             <button type="submit" class="btn btn-primary me-md-0">
                                 <i class="fa fa-check"></i> {{ __('custom-messages.edit-type', ['type' => 'Portfolio']) }}
                             </button>
-                            <a href="{{route('accounts.index')}}" class="btn btn-inverse me-md-0">{{ __('buttons.cancel') }}</a>
+                            <a href="{{route('portfolios.index')}}" class="btn btn-inverse me-md-0">{{ __('buttons.cancel') }}</a>
                         </div>
                     </div>
                 </div>

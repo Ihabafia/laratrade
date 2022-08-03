@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Casts\CurrencyCast;
 use App\Enums\TransactionEnum;
-use App\Enums\TransactionTypeEnum;
+use App\Enums\Enums;
 use App\Models\Scopes\PortfolioScope;
 use App\Models\Scopes\UserScope;
 use App\Traits\AuditTrailable;
@@ -18,7 +18,7 @@ class Transaction extends Model
     use HasFactory, LogsActivity, AuditTrailable;
 
     protected $casts = [
-        'action' => TransactionTypeEnum::class,
+        'action' => Enums::class,
         'date' => 'datetime',
         'price' => CurrencyCast::class,
         'quantity' => 'float',
@@ -29,11 +29,16 @@ class Transaction extends Model
         parent::boot();
 
         static::addGlobalScope(new UserScope);
-        static::addGlobalScope(new PortfolioScope);
+        //static::addGlobalScope(new PortfolioScope);
 
         static::creating(function ($asset) {
             $asset->user_id = auth()->id();
         });
+    }
+
+    public static function scopeForThisPortfolio($builder)
+    {
+        $builder->where('portfolio_id', session('portfolio')['id']);
     }
 
     public function getTickerDescriptionAttribute()
@@ -49,8 +54,8 @@ class Transaction extends Model
     public function getQtyAttribute()
     {
         if(in_array($this->action, [
-            TransactionTypeEnum::Buy,
-            TransactionTypeEnum::Sell,
+            Enums::Buy,
+            Enums::Sell,
         ])) {
             return $this->quantity;
         }
@@ -59,8 +64,8 @@ class Transaction extends Model
     public function getThePriceAttribute()
     {
         if(in_array($this->action, [
-            TransactionTypeEnum::Buy,
-            TransactionTypeEnum::Sell,
+            Enums::Buy,
+            Enums::Sell,
         ])) {
             return $this->price;
         }
@@ -71,9 +76,9 @@ class Transaction extends Model
         return $this->belongsTo(Asset::class);
     }
 
-    public function account(): BelongsTo
+    public function portfolio(): BelongsTo
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Portfolio::class);
     }
 
 }

@@ -31,7 +31,7 @@
                                         @if($asset->ticker == 'CASH')
                                             {{ $asset->ticker }}
                                         @else
-                                            <a href="{{ route('assets.edit', $asset) }}">{{ $asset->ticker }}</a> <x-pill-conditional :condition="session('new') == $asset->id">{{ __('messages.new') }}</x-pill-conditional>
+                                            <a href="{{ route('assets.edit', $asset) }}">{{ $asset->ticker }}</a> <x-pill-conditional :condition="session('new') == $asset->id">{{ __('messages.new') }}</x-pill-conditional><x-pill-conditional color="info" :condition="session('updated') == $asset->id">{{ __('messages.updated') }}</x-pill-conditional>
                                         @endif
                                     </td>
                                     <td class="d-none d-sm-table-cell">{{ $asset->description }}</td>

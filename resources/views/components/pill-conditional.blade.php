@@ -1,6 +1,6 @@
 @props([
     'condition' => false,
-    'color' => 'info',
+    'color' => 'success',
 ])
 
 @if($condition)

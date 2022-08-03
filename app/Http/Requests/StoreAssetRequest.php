@@ -27,10 +27,10 @@ class StoreAssetRequest extends FormRequest
     public function rules()
     {
         return [
-            'asset.ticker' => ['required', 'string', 'max:10'],
-            'asset.description' => ['required', 'string', 'max:255'],
-            'asset.type' => ['required', new Enum(AssetTypeEnum::class)],
-            'asset.currency' => ['required', new Enum(CurrencyEnum::class)],
+            'ticker' => ['required', 'string', 'max:10'],
+            'description' => ['required', 'string', 'max:255'],
+            'type' => ['required', new Enum(AssetTypeEnum::class)],
+            'currency' => ['required', new Enum(CurrencyEnum::class)],
         ];
     }
 }

@@ -317,9 +317,8 @@ $(document).on("click", ".js_confirmation", function (e) {
   'use strict';
 
   /*******  Flatpickr  *****/
-  var basicPickr = $('.flatpickr-basic'); //,
+  var basicPickr = $('.flatpickr-basic'), dateTimePickr = $('.flatpickr-date-time'); //,
     // timePickr = $('.flatpickr-time'),
-    // dateTimePickr = $('.flatpickr-date-time'),
     // multiPickr = $('.flatpickr-multiple'),
     // rangePickr = $('.flatpickr-range'),
     // humanFriendlyPickr = $('.flatpickr-human-friendly'),
@@ -340,11 +339,11 @@ $(document).on("click", ".js_confirmation", function (e) {
   // }
 
   // Date & TIme
-  // if (dateTimePickr.length) {
-  //   dateTimePickr.flatpickr({
-  //     enableTime: true
-  //   });
-  // }
+  if (dateTimePickr.length) {
+    dateTimePickr.flatpickr({
+      enableTime: true
+    });
+  }
 
   // Multiple Dates
   // if (multiPickr.length) {

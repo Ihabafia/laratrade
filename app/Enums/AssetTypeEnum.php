@@ -6,14 +6,14 @@ enum AssetTypeEnum: string
 {
     case Stock = 'Stock';
     case Crypto = 'Crypto';
-    case Cash = 'Cash';
+    //case Cash = 'Cash';
 
     public function label(): string
     {
         return match($this) {
             self::Stock => 'Stock',
             self::Crypto => 'Crypto',
-            self::Cash => 'Cash',
+            //self::Cash => 'Cash',
         };
     }
 
@@ -22,7 +22,7 @@ enum AssetTypeEnum: string
         return match($this) {
             self::Stock => 'success',
             self::Crypto => 'primary',
-            self::Cash => 'info',
+            //self::Cash => 'info',
             default => '',
         };
     }
@@ -32,7 +32,7 @@ enum AssetTypeEnum: string
         return match($this) {
             self::Stock => 'light-success',
             self::Crypto => 'light-primary',
-            self::Cash => 'light-info',
+            //self::Cash => 'light-info',
             default => '',
         };
     }

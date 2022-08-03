@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAssetRequest;
 use App\Http\Requests\UpdateAssetRequest;
 use App\Models\Asset;
+use App\Models\Portfolio;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
@@ -16,7 +17,7 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $assets = Asset::all();
+        $assets = Asset::withOutCash()->get();
 
         return view('assets.index', compact('assets'));
     }
@@ -41,7 +42,7 @@ class AssetController extends Controller
     {
         $asset = auth()->user()
             ->assets()
-            ->create($request->validated()['asset']);
+            ->create($request->validated());
 
         return to_route('assets.index')
             ->withSuccess(__('custom-messages.model-created', ['model' => 'asset']))
@@ -57,8 +58,13 @@ class AssetController extends Controller
     public function get(Request $request)
     {
         $asset = Asset::find($request->id);
+        $portfolio = Portfolio::find(session('portfolio')['id']);
 
-        return response(['description' => $asset->description]);
+        return response([
+            'description' => $asset->description,
+            'currency' => $asset->currency->value,
+            'cash' => $portfolio->{$asset->currency->value},
+        ]);
     }
 
     /**
@@ -81,10 +87,11 @@ class AssetController extends Controller
      */
     public function update(StoreAssetRequest $request, Asset $asset)
     {
-        $asset->update($request->validated()['asset']);
+        $asset->update($request->validated());
 
         return to_route('assets.index')
-            ->withSuccess(__('custom-messages.model-updated', ['model' => 'asset']));
+            ->withSuccess(__('custom-messages.model-updated', ['model' => 'asset']))
+            ->withUpdated($asset->id);
 
     }
 

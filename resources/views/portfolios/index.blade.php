@@ -2,7 +2,7 @@
     title="{{ __('custom-messages.manage-__model__', ['model' => 'Portfolios']) }}"
 >
     <x-app.page-title page-title="{{ __('custom-messages.manage-__model__', ['model' => 'Portfolios']) }}">
-        <a href="{{ route('accounts.create') }}" class="btn btn-primary waves-effect waves-float waves-light">
+        <a href="{{ route('portfolios.create') }}" class="btn btn-primary waves-effect waves-float waves-light">
             <i data-feather='plus'></i> {{ __('buttons.create') }}
         </a>
     </x-app.page-title>
@@ -26,10 +26,10 @@
                             @forelse($portfolios as $portfolio)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('accounts.edit', $portfolio) }}">{{ $portfolio->name }}</a> <x-pill-conditional :condition="session('new') == $portfolio->id">{{ __('messages.new') }}</x-pill-conditional>
+                                        <a href="{{ route('portfolios.edit', $portfolio) }}">{{ $portfolio->name }}</a> <x-pill-conditional :condition="session('new') == $portfolio->id">{{ __('messages.new') }}</x-pill-conditional><x-pill-conditional color="info" :condition="session('updated') == $portfolio->id">{{ __('messages.updated') }}</x-pill-conditional>
                                     </td>
                                     <td>{{ $portfolio->description }}</td>
-                                    <td><a href="{{ route('accounts.edit', $portfolio) }}" class="btn btn-info btn-sm">{{ __('buttons.edit') }}</a></td>
+                                    <td><a href="{{ route('portfolios.edit', $portfolio) }}" class="btn btn-info btn-sm">{{ __('buttons.edit') }}</a></td>
                                 </tr>
                             @empty
                                 <tr>

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
-            $table->json('cash')/*->default(['USD' => 0, 'CAD' => 0])*/;
+            $table->string('description')->nullable();
+            $table->unsignedBigInteger('CAD')->default(0);
+            $table->unsignedBigInteger('USD')->default(0);
             $table->timestamps();
         });
     }

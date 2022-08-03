@@ -3,38 +3,43 @@
 namespace App\Actions;
 
 use App\Enums\AssetTypeEnum;
-use App\Models\Account;
+use App\Enums\Enums;
+use App\Models\Portfolio;
 use App\Models\Asset;
 use Illuminate\Support\Collection;
 
 class ConvertCurrency
 {
-    protected Account $account;
+    protected Portfolio $portfolio;
     protected Asset $asset;
 
     public function __construct(public array $data, public string $action)
     {
-        $this->account = Account::find($this->data['account_id']);
+        $this->portfolio = Portfolio::find($this->data['portfolio_id']);
     }
 
     public function converted(): Collection
     {
         $converted = $this->convert();
+        $cadAsset = $this->portfolio->cash()->where('currency', 'CAD')->first();
+        $usdAsset = $this->portfolio->cash()->where('currency', 'USD')->first();
 
-        $asset = Asset::where(['ticker' => AssetTypeEnum::Cash, 'currency' => 'CAD'])->first();
         $result['CAD'] = [
-            'account_id' => $this->account->id,
-            'asset_id' => $asset->id,
+            'user_id' => auth()->id(),
+            'asset_id' => $cadAsset->id,
+            'ticker' => 'CASH',
+            'currency' => 'CAD',
             'quantity' => 1,
             'price' => $converted['price_cad'],
             'action' => $this->data['action'],
             'date' => $all['date'] ?? now(),
         ];
 
-        $asset = Asset::where(['ticker' => AssetTypeEnum::Cash, 'currency' => 'USD'])->first();
         $result['USD'] = [
-            'account_id' => $this->account->id,
-            'asset_id' => $asset->id,
+            'user_id' => auth()->id(),
+            'asset_id' => $usdAsset->id,
+            'ticker' => 'CASH',
+            'currency' => 'USD',
             'quantity' => 1,
             'price' => $converted['price_usd'],
             'action' => $this->data['action'],

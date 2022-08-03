@@ -2,13 +2,13 @@
     title="{{ __('custom-messages.create-model', ['model' => 'Portfolio']) }}"
 >
     <x-app.page-title page-title="{{ __('custom-messages.create-model', ['model' => 'Portfolio']) }}">
-        <a href="{{ route('accounts.index') }}" class="btn btn-success waves-effect waves-float waves-light">
+        <a href="{{ route('portfolios.index') }}" class="btn btn-success waves-effect waves-float waves-light">
             <i data-feather='list'></i> {{ __('buttons.list-of-portfolios') }}
         </a>
     </x-app.page-title>
 
     <form class="masked-form"
-          action="{{ route('accounts.store') }}"
+          action="{{ route('portfolios.store') }}"
           method="POST"
     >
         @csrf

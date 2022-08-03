@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Portfolio::class)->nullable();
             $table->string('ticker', 10);
             $table->string('description');
             $table->string('type', 10);
